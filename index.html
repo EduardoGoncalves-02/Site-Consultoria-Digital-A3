@@ -101,7 +101,7 @@
     <form id="formDiag" novalidate class="space-y-6">
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
         <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i data-lucide="briefcase" class="w-5 h-5 text-teal"></i>Dados da Empresa</h3>
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-4 gap-4">
           <label class="block">
             <span class="text-sm font-semibold text-slate-700">Nome da Empresa</span>
             <input id="empresa" type="text" placeholder="Ex.: VarejoAtivo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5">
@@ -117,9 +117,26 @@
             <span class="text-sm font-semibold text-slate-700">Porte (nº de colaboradores)</span>
             <input id="porte" type="number" min="1" placeholder="Ex.: 220" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5">
           </label>
+          <label class="block">
+            <span class="text-sm font-semibold text-slate-700">Picos Sazonais de Acesso?</span>
+            <select id="picosSazonais" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 bg-white text-sm">
+              <option value="">Selecione...</option>
+              <option value="sim">Sim (ex: Black Friday, Natal)</option>
+              <option value="nao">Não / Uniforme</option>
+            </select>
+          </label>
         </div>
       </div>
 
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+        <label class="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" id="controleAcessos" class="mt-1 w-5 h-5 rounded border-slate-300 text-teal focus:ring-teal">
+          <div>
+            <span class="text-sm font-semibold text-slate-800">A empresa possui gestão centralizada de "Controle de Acessos"?</span>
+            <p class="text-xs text-slate-500">Se desmarcado, um alerta crítico sobre multas LGPD e políticas IAM será gerado no laudo.</p>
+          </div>
+        </label>
+      </div>
       <div id="perguntas" class="grid md:grid-cols-2 gap-6"></div>
 
       <div id="aviso" class="hidden rounded-xl border-2 border-red-300 bg-red-50 text-red-800 p-4 flex items-start gap-3" role="alert">
@@ -220,12 +237,12 @@
       'Backup automático em um só local',
       'Backup automático local + cópia em nuvem, sem teste de restauração',
       'Regra 3-2-1 automatizada em nuvem, com teste de restauração'] },
-    { id: 'q3', pilar: 1, texto: 'Q3. Qual o nível de integração entre vendas (lojas e e-commerce), estoque e financeiro?', opcoes: [
-      'Planilhas e digitação manual',
-      'Sistemas isolados, com exportação/importação manual de arquivos',
-      'Integração parcial',
-      'ERP integrado à maioria das áreas, com algumas sincronizações em lote',
-      'ERP e CRM integrados por API, com estoque em tempo real'] },
+    { id: 'q3', pilar: 1, texto: 'Q3. Qual o nível de integração e quão amigáveis (Mobile-Friendly) são seus sistemas atuais?', opcoes: [
+      'Não são responsivos e exigem digitação manual',
+      'Sistemas isolados e pesados; não funcionam bem em mobile',
+      'Integração parcial, mas interfaces legadas difíceis de usar',
+      'ERP parcialmente integrado com algumas interfaces móveis',
+      'ERP e CRM nativos em nuvem (SaaS), responsivos e integrados via APIs REST'] },
     { id: 'q4', pilar: 1, texto: 'Q4. Como a gestão acompanha indicadores como margem, giro de estoque e vendas?', opcoes: [
       'Relatórios avulsos em planilhas',
       'Planilhas consolidadas manualmente, com divergências frequentes',
@@ -258,7 +275,7 @@
       'Programa contínuo de capacitação e política formal de IA'] }
   ];
 
-  const DEMO = { empresa: 'VarejoAtivo', setor: 'Varejo', porte: 220,
+  const DEMO = { empresa: 'VarejoAtivo', setor: 'Varejo', porte: 220, picosSazonais: 'sim', controleAcessos: false,
     respostas: { q1: 1, q2: 2, q3: 1, q4: 1, q5: 1, q6: 1, q7: 2, q8: 1 } };
 
   const CLASSES = [
@@ -281,7 +298,7 @@
         'Contrate <b>redundância de link</b> de internet (2 operadoras) nas lojas e na matriz para evitar paradas de PDV.'
       ],
       media: [
-        'Avalie cargas legadas que exigem controle total para <b>IaaS</b> (máquinas virtuais em AWS, Azure ou GCP) e defina regras de <b>autoscaling</b> antes das datas de pico.',
+        'Se a empresa sofre com <b>picos sazonais de acesso</b>, migre imediatamente para <b>IaaS com Auto-scaling (OpEx)</b> para evitar quedas e sobrecargas no e-commerce.',
         'Automatize o backup 3-2-1 com <b>testes periódicos de restauração</b> e defina RPO/RTO por sistema crítico.',
         'Projete <b>alta disponibilidade</b>: múltiplas zonas, balanceador de carga e monitoramento ativo com alertas.',
         'Inicie práticas de <b>FinOps</b>: etiquetas de custo por área, orçamentos e alertas de consumo.'
@@ -294,7 +311,7 @@
     },
     sistemas: {
       baixa: [
-        'Elimine os <b>silos de planilhas</b>: adote um ERP único (preferencialmente em nuvem) para vendas, estoque e financeiro.',
+        'Elimine os <b>silos de planilhas</b>: substitua sistemas legados não mobile-friendly por um <b>ERP em nuvem (SaaS)</b> integrado via <b>APIs REST</b>.',
         'Implemente a <b>sincronização de estoque entre lojas e e-commerce</b> para evitar ruptura e venda sem saldo.',
         'Defina uma <b>fonte única da verdade</b> para cadastros de produtos, clientes e preços.',
         'Crie um primeiro <b>dashboard gerencial</b> com margem, giro de estoque e vendas por canal.'
@@ -312,7 +329,7 @@
     },
     ia: {
       baixa: [
-        'Faça o <b>mapeamento de gargalos</b>: liste tarefas repetitivas (digitação de pedidos, conferências, relatórios) e meça horas gastas.',
+        'Crie painéis focados em <b>OKRs em Near Real-Time</b> e implante automações orientadas a eventos (<b>Event-Driven</b>) para garantir a eficiência operacional.',
         'Comece com <b>automações No-Code</b> simples e de alto impacto (ex.: notificações de estoque baixo, consolidação de relatórios).',
         'Pilote IA generativa em tarefas de baixo risco (rascunhos de descrições de produtos e e-mails), sempre com <b>Human-in-the-Loop</b>.'
       ],
@@ -329,7 +346,7 @@
     },
     governanca: {
       baixa: [
-        'Ative <b>MFA</b> em todas as contas críticas (e-mail, ERP, e-commerce, bancos) e elimine senhas compartilhadas.',
+        'Atenção (Multas LGPD): Implemente imediatamente <b>Políticas IAM</b> (Princípio do Menor Privilégio) e o <b>Mascaramento de Dados Sensíveis</b> nos sistemas.' ,
         'Aplique o princípio do <b>menor privilégio</b>: cada colaborador acessa apenas o necessário.',
         'Inicie a <b>adequação à LGPD</b>: inventário de dados pessoais, bases legais e encarregado (DPO) nomeado.',
         'Comece um <b>plano de capacitação</b> básico e uma <b>transição gradual</b> via projeto-piloto em uma loja.'
@@ -421,6 +438,8 @@
     $('#infoEmpresa').textContent = `${setor} · ${porte} · Emitido em ${new Date().toLocaleDateString('pt-BR')}`;
 
     const c = classificar(r.geral);
+    const temPicos = $('#picosSazonais').value === 'sim';
+    const temControleAcesso = $('#controleAcessos').checked;
     $('#notaGeral').textContent = `${r.geral}%`;
     $('#notaGeral').style.color = c.cor;
     $('#selo').className = `mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm ${c.cls}`;
@@ -503,6 +522,8 @@
     $('#empresa').value = DEMO.empresa;
     $('#setor').value = DEMO.setor;
     $('#porte').value = DEMO.porte;
+    $('#picosSazonais').value = DEMO.picosSazonais;
+    $('#controleAcessos').checked = DEMO.controleAcessos;
     Object.entries(DEMO.respostas).forEach(([k, v]) => { $('#' + k).value = String(v); });
     executar();
   }
