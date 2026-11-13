@@ -6,6 +6,11 @@ Diagnóstico 360º de Maturidade Digital (ERP, CRM, Nuvem e IA), desenvolvido co
 
 👥 Especialistas Responsáveis (Autores)
 Eduardo Daniel Gonçalves Pereira
+Andriele de Oliveira Antunes
+Douglas de Almeida Ruver
+João Henrique Marchetto Vieira
+Gustavo Leão da Silva
+
 Unidade Curricular: Exploração Digital e Fundamentos Tecnológicos (Objetos de Conhecimento 05 e 06)
 Docentes: Clarissa Carneiro Mussi e Rodrigo Brandelero
 🎯 1. O Problema Empresarial e Objetivo do Aplicativo
